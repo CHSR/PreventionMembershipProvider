@@ -1,0 +1,8 @@
+C:\Users\cp932249\Documents\GitHub\CHSRMembershipProvider\CHSRMembershipProvider\bin\NJ-CHSR_Server\CHSRMembershipProvider.dll
+C:\Users\cp932249\Documents\GitHub\CHSRMembershipProvider\CHSRMembershipProvider\bin\NJ-CHSR_Server\CHSRMembershipProvider.pdb
+C:\Users\cp932249\Documents\GitHub\CHSRMembershipProvider\CHSRMembershipProvider\bin\NJ-CHSR_Server\CHSRMembershipProvider.xml
+C:\Users\cp932249\Documents\GitHub\CHSRMembershipProvider\CHSRMembershipProvider\obj\NJ-CHSR_Server\CHSRMembershipProvider.Resources.resources
+C:\Users\cp932249\Documents\GitHub\CHSRMembershipProvider\CHSRMembershipProvider\obj\NJ-CHSR_Server\CHSRMembershipProvider.vbproj.GenerateResource.Cache
+C:\Users\cp932249\Documents\GitHub\CHSRMembershipProvider\CHSRMembershipProvider\obj\NJ-CHSR_Server\CHSRMembershipProvider.dll
+C:\Users\cp932249\Documents\GitHub\CHSRMembershipProvider\CHSRMembershipProvider\obj\NJ-CHSR_Server\CHSRMembershipProvider.xml
+C:\Users\cp932249\Documents\GitHub\CHSRMembershipProvider\CHSRMembershipProvider\obj\NJ-CHSR_Server\CHSRMembershipProvider.pdb
