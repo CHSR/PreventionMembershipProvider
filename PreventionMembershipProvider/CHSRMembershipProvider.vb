@@ -1091,7 +1091,7 @@ Public Class CHSRMembershipProvider
         Dim conn As SqlConnection = New SqlConnection(connectionString)
         Dim cmd As SqlCommand = New SqlCommand("UPDATE Users " & _
                 " SET Email = @Email, Comment = @Comment," & _
-                " IsApproved = @IsApproved, program = @program, role = @role " & _
+                " IsApproved = @IsApproved, programsite = @program, role = @role " & _
                 " WHERE Username = @Username AND ApplicationName = @ApplicationName", conn)
 
         Dim u As CHsRMembershipUser = CType(user, CHsRMembershipUser)
