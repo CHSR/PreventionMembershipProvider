@@ -1,0 +1,4 @@
+*.dll
+PreventionMembershipProvider/bin/Debug/CHSRMembershipProvider.pdb
+*.txt
+PreventionMembershipProvider/obj/Debug/CHSRMembershipProvider.vbproj.GenerateResource.Cache
