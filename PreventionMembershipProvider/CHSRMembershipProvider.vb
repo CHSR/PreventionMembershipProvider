@@ -918,7 +918,7 @@ Public Class CHSRMembershipProvider
     Public Overrides Function UnlockUser(ByVal username As String) As Boolean
         Dim conn As SqlConnection = New SqlConnection(connectionString)
         Dim cmd As SqlCommand = New SqlCommand("UPDATE Users  " & _
-                                          " SET IsLockedOut = False, LastLockedOutDate = @LastLockedOutDate " & _
+                                          " SET IsLockedOut = 0, LastLockedOutDate = @LastLockedOutDate " & _
                                           " WHERE Username = @Username AND ApplicationName = @ApplicationName", conn)
 
         cmd.Parameters.Add("@LastLockedOutDate", SqlDbType.DateTime).Value = DateTime.Now

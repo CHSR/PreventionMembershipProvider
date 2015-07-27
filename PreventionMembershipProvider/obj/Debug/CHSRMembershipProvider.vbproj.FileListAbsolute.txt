@@ -44,11 +44,11 @@ C:\Users\cp932249\Documents\GitHub\CHSRMembershipProvider\CHSRMembershipProvider
 C:\Users\cp932249\Documents\GitHub\CHSRMembershipProvider\CHSRMembershipProvider\obj\Debug\CHSRMembershipProvider.dll
 C:\Users\cp932249\Documents\GitHub\CHSRMembershipProvider\CHSRMembershipProvider\obj\Debug\CHSRMembershipProvider.xml
 C:\Users\cp932249\Documents\GitHub\CHSRMembershipProvider\CHSRMembershipProvider\obj\Debug\CHSRMembershipProvider.pdb
-C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.Resources.resources
-C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.vbproj.GenerateResource.Cache
 C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\bin\Debug\CHSRMembershipProvider.dll
 C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\bin\Debug\CHSRMembershipProvider.pdb
 C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\bin\Debug\CHSRMembershipProvider.xml
+C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.Resources.resources
+C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.vbproj.GenerateResource.Cache
 C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.dll
 C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.xml
 C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.pdb
