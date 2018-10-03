@@ -52,3 +52,5 @@ C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMember
 C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.dll
 C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.xml
 C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.pdb
+C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.vbprojAssemblyReference.cache
+C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.vbproj.CoreCompileInputs.cache

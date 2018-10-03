@@ -18,7 +18,8 @@ C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMember
 C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\bin\Release\CHSRMembershipProvider.pdb
 C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\bin\Release\CHSRMembershipProvider.xml
 C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Release\CHSRMembershipProvider.Resources.resources
-C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Release\CHSRMembershipProvider.vbproj.GenerateResource.Cache
+C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Release\CHSRMembershipProvider.vbproj.GenerateResource.cache
+C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Release\CHSRMembershipProvider.vbproj.CoreCompileInputs.cache
 C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Release\CHSRMembershipProvider.dll
 C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Release\CHSRMembershipProvider.xml
 C:\Users\cp932249\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Release\CHSRMembershipProvider.pdb
