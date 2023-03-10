@@ -34,6 +34,9 @@ Imports System.Web.Security
 '	[FailedPasswordAnswerAttemptWindowStart] [datetime] NULL,
 '	[program] [int] NULL,
 '	[Role] varchar(255) NULL,
+'   [isVerified] bit NOT NULL DEFAULT(0),
+'   [verifiedDate] datetime NULL,
+'   [verifyCode] varchar(128) NULL
 'PRIMARY KEY CLUSTERED 
 '(
 '	[PKID] ASC
@@ -459,8 +462,8 @@ Public Class CHSRMembershipProvider
                    " ApplicationName, IsLockedOut, LastLockedOutDate," & _
                    " FailedPasswordAttemptCount, FailedPasswordAttemptWindowStart, " & _
                    " FailedPasswordAnswerAttemptCount, FailedPasswordAnswerAttemptWindowStart, " & _
-                   " program, role)" & _
-                   " Values(@PKID, @Username, @Password, @Email, @PasswordQuestion, @PasswordAnswer, @IsApproved, @Comment, @CreationDate, @LastPasswordChangedDate, @LastActivityDate, @ApplicationName, @IsLockedOut, @LastLockedOutDate, @FailedPasswordAttemptCount, @FailedPasswordAttemptWindowStart, @FailedPasswordAnswerAttemptCount, @FailedPasswordAnswerAttemptWindowStart, @program, @role)", conn)
+                   " program, role, isVerified)" & _
+                   " Values(@PKID, @Username, @Password, @Email, @PasswordQuestion, @PasswordAnswer, @IsApproved, @Comment, @CreationDate, @LastPasswordChangedDate, @LastActivityDate, @ApplicationName, @IsLockedOut, @LastLockedOutDate, @FailedPasswordAttemptCount, @FailedPasswordAttemptWindowStart, @FailedPasswordAnswerAttemptCount, @FailedPasswordAnswerAttemptWindowStart, @program, @role, @isVerified)", conn)
 
             cmd.Parameters.Add("@PKID", SqlDbType.UniqueIdentifier).Value = providerUserKey
             cmd.Parameters.Add("@Username", SqlDbType.VarChar, 255).Value = username
@@ -482,6 +485,7 @@ Public Class CHSRMembershipProvider
             cmd.Parameters.Add("@FailedPasswordAnswerAttemptWindowStart", SqlDbType.DateTime).Value = createDate
             cmd.Parameters.Add("@program", SqlDbType.Int).Value = program
             cmd.Parameters.Add("@role", SqlDbType.VarChar, 255).Value = role
+            cmd.Parameters.Add("@isVerified", SqlDbType.Bit).Value = False
 
             Try
                 conn.Open()
@@ -583,11 +587,11 @@ Public Class CHSRMembershipProvider
 
             If totalRecords <= 0 Then Return users
 
-            cmd.CommandText = "SELECT PKID, Username, Email, PasswordQuestion," & _
-                     " Comment, IsApproved, IsLockedOut, CreationDate, LastLoginDate," & _
-                     " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, programsite " & _
-                     " FROM Users  " & _
-                     " WHERE ApplicationName = @ApplicationName " & _
+            cmd.CommandText = "SELECT PKID, Username, Email, PasswordQuestion," &
+                     " Comment, IsApproved, IsLockedOut, CreationDate, LastLoginDate," &
+                     " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, programsite, isVerified, verifiedDate, verifyCode " &
+                     " FROM Users  " &
+                     " WHERE ApplicationName = @ApplicationName " &
                      " ORDER BY Username Asc"
 
             reader = cmd.ExecuteReader()
@@ -633,7 +637,7 @@ Public Class CHSRMembershipProvider
         Dim compareTime As DateTime = DateTime.Now.Subtract(onlineSpan)
 
         Dim conn As SqlConnection = New SqlConnection(connectionString)
-        Dim cmd As SqlCommand = New SqlCommand("SELECT Count(*) FROM Users " & _
+        Dim cmd As SqlCommand = New SqlCommand("SELECT Count(*) FROM Users " &
                 " WHERE LastActivityDate > @CompareDate AND ApplicationName = @ApplicationName", conn)
 
         cmd.Parameters.Add("@CompareDate", SqlDbType.DateTime).Value = compareTime
@@ -659,8 +663,6 @@ Public Class CHSRMembershipProvider
 
         Return numOnline
     End Function
-
-
 
     '
     ' MembershipProvider.GetPassword
@@ -741,9 +743,9 @@ Public Class CHSRMembershipProvider
                                       ByVal userIsOnline As Boolean) As MembershipUser
 
         Dim conn As SqlConnection = New SqlConnection(connectionString)
-        Dim cmd As SqlCommand = New SqlCommand("SELECT PKID, Username, Email, PasswordQuestion," & _
-              " Comment, IsApproved, IsLockedOut, CreationDate, LastLoginDate," & _
-              " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, programsite " & _
+        Dim cmd As SqlCommand = New SqlCommand("SELECT PKID, Username, Email, PasswordQuestion," &
+              " Comment, IsApproved, IsLockedOut, CreationDate, LastLoginDate," &
+              " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, programsite, isVerified, verifiedDate, verifyCode" &
               " FROM Users  WHERE Username = @Username AND ApplicationName = @ApplicationName", conn)
 
         cmd.Parameters.Add("@Username", SqlDbType.VarChar, 255).Value = username
@@ -799,9 +801,9 @@ Public Class CHSRMembershipProvider
     ByVal userIsOnline As Boolean) As MembershipUser
 
         Dim conn As SqlConnection = New SqlConnection(connectionString)
-        Dim cmd As SqlCommand = New SqlCommand("SELECT PKID, Username, Email, PasswordQuestion," & _
-              " Comment, IsApproved, IsLockedOut, CreationDate, LastLoginDate," & _
-              " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, SiteFK " & _
+        Dim cmd As SqlCommand = New SqlCommand("SELECT PKID, Username, Email, PasswordQuestion," &
+              " Comment, IsApproved, IsLockedOut, CreationDate, LastLoginDate," &
+              " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, programsite, isVerified, verifiedDate, verifyCode " &
               " FROM Users  WHERE PKID = @PKID", conn)
 
         cmd.Parameters.Add("@PKID", SqlDbType.UniqueIdentifier).Value = providerUserKey
@@ -890,22 +892,33 @@ Public Class CHSRMembershipProvider
 
         Dim programsite As Integer = reader.GetInt32(14)
 
-        Dim u As CHsRMembershipUser = New CHsRMembershipUser(Me.Name, _
-                                              username, _
-                                              providerUserKey, _
-                                              email, _
-                                              passwordQuestion, _
-                                              comment, _
-                                              isApproved, _
-                                              isLockedOut, _
-                                              creationDate, _
-                                              lastLoginDate, _
-                                              lastActivityDate, _
-                                              lastPasswordChangedDate, _
-                                              lastLockedOutDate, _
-                                              program, _
+        Dim isVerified As Boolean = reader.GetBoolean(15)
+
+        Dim verifiedDate As DateTime = New DateTime()
+        If Not reader.GetValue(16) Is DBNull.Value Then _
+          lastLockedOutDate = reader.GetDateTime(16)
+
+        Dim verifyCode As String = reader.GetString(17)
+
+        Dim u As CHsRMembershipUser = New CHsRMembershipUser(Me.Name,
+                                              username,
+                                              providerUserKey,
+                                              email,
+                                              passwordQuestion,
+                                              comment,
+                                              isApproved,
+                                              isLockedOut,
+                                              creationDate,
+                                              lastLoginDate,
+                                              lastActivityDate,
+                                              lastPasswordChangedDate,
+                                              lastLockedOutDate,
+                                              program,
                                               role,
-                                              programsite)
+                                              programsite,
+                                              isVerified,
+                                              verifiedDate,
+                                              verifyCode)
 
         Return u
     End Function
@@ -1130,7 +1143,7 @@ Public Class CHSRMembershipProvider
         Dim isValid As Boolean = False
 
         Dim conn As SqlConnection = New SqlConnection(connectionString)
-        Dim cmd As SqlCommand = New SqlCommand("SELECT Password, IsApproved FROM Users " & _
+        Dim cmd As SqlCommand = New SqlCommand("SELECT Password, IsApproved FROM Users " &
                 " WHERE Username = @Username AND ApplicationName = @ApplicationName AND IsLockedOut = 0", conn)
 
         cmd.Parameters.Add("@Username", SqlDbType.VarChar, 255).Value = username
@@ -1332,6 +1345,10 @@ Public Class CHSRMembershipProvider
     ' CheckPassword
     '   Compares password values based on the MembershipPasswordFormat.
     '
+    '
+    '   Will also be used to check the verification code in 2-factor authentication
+    '
+    '
 
     Private Function CheckPassword(ByVal password As String, ByVal dbpassword As String) As Boolean
         Dim pass1 As String = password
@@ -1449,11 +1466,11 @@ Public Class CHSRMembershipProvider
 
             If totalRecords <= 0 Then Return users
 
-            cmd.CommandText = "SELECT PKID, Username, Email, PasswordQuestion," & _
-              " Comment, IsApproved, IsLockedOut, CreationDate, LastLoginDate," & _
-              " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, programsite " & _
-              " FROM Users  " & _
-              " WHERE Username LIKE @UsernameSearch AND ApplicationName = @ApplicationName " & _
+            cmd.CommandText = "SELECT PKID, Username, Email, PasswordQuestion," &
+              " Comment, IsApproved, IsLockedOut, CreationDate, LastLoginDate," &
+              " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, programsite, isVerified, verifiedDate, verifyCode " &
+              " FROM Users  " &
+              " WHERE Username LIKE @UsernameSearch AND ApplicationName = @ApplicationName " &
               " ORDER BY Username Asc"
 
             reader = cmd.ExecuteReader()
@@ -1516,11 +1533,11 @@ Public Class CHSRMembershipProvider
 
             If totalRecords <= 0 Then Return users
 
-            cmd.CommandText = "SELECT PKID, Username, Email, PasswordQuestion," & _
-                     " Comment, IsApproved, IsLockedOut, CreationDate, LastLoginDate," & _
-                     " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, programsite " & _
-                     " FROM Users  " & _
-                     " WHERE Email LIKE @EmailSearch AND ApplicationName = @ApplicationName " & _
+            cmd.CommandText = "SELECT PKID, Username, Email, PasswordQuestion," &
+                     " Comment, IsApproved, IsLockedOut, CreationDate, LastLoginDate," &
+                     " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, programsite, isVerified, verifiedDate, verifyCode " &
+                     " FROM Users  " &
+                     " WHERE Email LIKE @EmailSearch AND ApplicationName = @ApplicationName " &
                      " ORDER BY Username Asc"
 
             reader = cmd.ExecuteReader()

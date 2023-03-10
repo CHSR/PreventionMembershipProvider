@@ -37,40 +37,80 @@ Public Class CHsRMembershipUser
         End Set
     End Property
 
-    Public Sub New(ByVal providername As String, _
-                   ByVal username As String, _
-                   ByVal userid As Object, _
-                   ByVal email As String, _
-                   ByVal passwordQuestion As String, _
-                   ByVal comment As String, _
-                   ByVal isApproved As Boolean, _
-                   ByVal isLockedOut As Boolean, _
-                   ByVal creationDate As DateTime, _
-                   ByVal lastLoginDate As DateTime, _
-                   ByVal lastActivityDate As DateTime, _
-                   ByVal lastPasswordChangedDate As DateTime, _
-                   ByVal lastLockedOutDate As DateTime, _
-                   ByVal program As Integer, _
-                   ByVal role As String, _
-                   ByVal programsite As Integer)
+    Private _isVerified As Boolean
 
-        MyBase.New(providername, _
-                   username, _
-                   userid, _
-                   email, _
-                   passwordQuestion, _
-                   comment, _
-                   isApproved, _
-                   isLockedOut, _
-                   creationDate, _
-                   lastLoginDate, _
-                   lastActivityDate, _
-                   lastPasswordChangedDate, _
+    Public Property IsVerified() As Boolean
+        Get
+            Return _isVerified
+        End Get
+        Set(value As Boolean)
+            _isVerified = value
+        End Set
+    End Property
+
+    Private _verifiedDate As DateTime
+
+    Public Property VerifiedDate() As DateTime
+        Get
+            Return _verifiedDate
+        End Get
+        Set(value As DateTime)
+            _verifiedDate = value
+        End Set
+    End Property
+
+    Private _verifyCode As String
+
+    Public Property VerifyCode() As String
+        Get
+            Return _verifyCode
+        End Get
+        Set(value As String)
+            _verifyCode = value
+        End Set
+    End Property
+
+    Public Sub New(ByVal providername As String,
+                   ByVal username As String,
+                   ByVal userid As Object,
+                   ByVal email As String,
+                   ByVal passwordQuestion As String,
+                   ByVal comment As String,
+                   ByVal isApproved As Boolean,
+                   ByVal isLockedOut As Boolean,
+                   ByVal creationDate As DateTime,
+                   ByVal lastLoginDate As DateTime,
+                   ByVal lastActivityDate As DateTime,
+                   ByVal lastPasswordChangedDate As DateTime,
+                   ByVal lastLockedOutDate As DateTime,
+                   ByVal program As Integer,
+                   ByVal role As String,
+                   ByVal programsite As Integer,
+                   ByVal isVerified As Boolean,
+                   ByVal verifiedDate As DateTime,
+                   ByVal verifyCode As String)
+
+        MyBase.New(providername,
+                   username,
+                   userid,
+                   email,
+                   passwordQuestion,
+                   comment,
+                   isApproved,
+                   isLockedOut,
+                   creationDate,
+                   lastLoginDate,
+                   lastActivityDate,
+                   lastPasswordChangedDate,
                    lastLockedOutDate)
 
         Me.program = program
         Me.Role = role
         Me.programsite = programsite
+
+        Me.IsVerified = isVerified
+        Me.VerifiedDate = verifiedDate
+        Me.VerifyCode = verifyCode
 
     End Sub
 
