@@ -898,7 +898,9 @@ Public Class CHSRMembershipProvider
         If Not reader.GetValue(16) Is DBNull.Value Then _
           verifiedDate = reader.GetDateTime(16)
 
-        Dim verifyCode As String = reader.GetString(17)
+        Dim verifyCode As String
+        If Not reader.GetValue(17) Is DBNull.Value Then _
+            verifyCode = reader.GetString(17)
 
         Dim u As CHsRMembershipUser = New CHsRMembershipUser(Me.Name,
                                               username,

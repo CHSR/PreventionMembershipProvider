@@ -73,3 +73,13 @@ C:\Users\annau\OneDrive\Documents\GitHub\PreventionMembershipProvider\Prevention
 C:\Users\annau\OneDrive\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.dll
 C:\Users\annau\OneDrive\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.xml
 C:\Users\annau\OneDrive\Documents\GitHub\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.pdb
+C:\Users\jr286576\Documents\GitHubNew\PreventionMembershipProvider\PreventionMembershipProvider\bin\Debug\CHSRMembershipProvider.dll
+C:\Users\jr286576\Documents\GitHubNew\PreventionMembershipProvider\PreventionMembershipProvider\bin\Debug\CHSRMembershipProvider.pdb
+C:\Users\jr286576\Documents\GitHubNew\PreventionMembershipProvider\PreventionMembershipProvider\bin\Debug\CHSRMembershipProvider.xml
+C:\Users\jr286576\Documents\GitHubNew\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.vbproj.AssemblyReference.cache
+C:\Users\jr286576\Documents\GitHubNew\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.Resources.resources
+C:\Users\jr286576\Documents\GitHubNew\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.vbproj.GenerateResource.cache
+C:\Users\jr286576\Documents\GitHubNew\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.vbproj.CoreCompileInputs.cache
+C:\Users\jr286576\Documents\GitHubNew\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.dll
+C:\Users\jr286576\Documents\GitHubNew\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.xml
+C:\Users\jr286576\Documents\GitHubNew\PreventionMembershipProvider\PreventionMembershipProvider\obj\Debug\CHSRMembershipProvider.pdb
