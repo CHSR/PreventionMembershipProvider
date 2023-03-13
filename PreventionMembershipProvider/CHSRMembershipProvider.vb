@@ -894,9 +894,9 @@ Public Class CHSRMembershipProvider
 
         Dim isVerified As Boolean = reader.GetBoolean(15)
 
-        Dim verifiedDate As DateTime = New DateTime()
+        Dim verifiedDate As New DateTime()
         If Not reader.GetValue(16) Is DBNull.Value Then _
-          lastLockedOutDate = reader.GetDateTime(16)
+          verifiedDate = reader.GetDateTime(16)
 
         Dim verifyCode As String = reader.GetString(17)
 
@@ -1102,9 +1102,9 @@ Public Class CHSRMembershipProvider
     Public Overrides Sub UpdateUser(ByVal user As MembershipUser)
 
         Dim conn As SqlConnection = New SqlConnection(connectionString)
-        Dim cmd As SqlCommand = New SqlCommand("UPDATE Users " & _
-                " SET Email = @Email, Comment = @Comment," & _
-                " IsApproved = @IsApproved, programsite = @program, role = @role " & _
+        Dim cmd As SqlCommand = New SqlCommand("UPDATE Users " &
+                " SET Email = @Email, Comment = @Comment," &
+                " IsApproved = @IsApproved, programsite = @program, role = @role, isVerified = @isVerified, verifiedDate = @verifiedDate, verifyCode= @verifyCode " &
                 " WHERE Username = @Username AND ApplicationName = @ApplicationName", conn)
 
         Dim u As CHsRMembershipUser = CType(user, CHsRMembershipUser)
@@ -1116,6 +1116,10 @@ Public Class CHSRMembershipProvider
         cmd.Parameters.Add("@role", SqlDbType.VarChar, 255).Value = u.Role
         cmd.Parameters.Add("@Username", SqlDbType.VarChar, 255).Value = user.UserName
         cmd.Parameters.Add("@ApplicationName", SqlDbType.VarChar, 255).Value = pApplicationName
+        cmd.Parameters.Add("@isVerified", SqlDbType.Bit).Value = u.IsVerified
+        cmd.Parameters.Add("@verifiedDate", SqlDbType.DateTime).Value = u.VerifiedDate
+        cmd.Parameters.Add("@verifyCode", SqlDbType.VarChar, 128).Value = u.VerifyCode
+
 
         Try
             conn.Open()
