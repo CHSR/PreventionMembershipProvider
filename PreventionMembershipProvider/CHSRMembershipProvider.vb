@@ -108,7 +108,7 @@ Public Class CHSRMembershipProvider
         MyBase.Initialize(name, config)
 
 
-        pApplicationName = GetConfigValue(config("applicationName"), _
+        pApplicationName = GetConfigValue(config("applicationName"),
                                         System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath)
         pMaxInvalidPasswordAttempts = Convert.ToInt32(GetConfigValue(config("maxInvalidPasswordAttempts"), "5"))
         pPasswordAttemptWindow = Convert.ToInt32(GetConfigValue(config("passwordAttemptWindow"), "10"))
@@ -141,7 +141,7 @@ Public Class CHSRMembershipProvider
         ' Initialize SqlConnection.
         '
 
-        Dim ConnectionStringSettings As ConnectionStringSettings = _
+        Dim ConnectionStringSettings As ConnectionStringSettings =
           ConfigurationManager.ConnectionStrings(config("connectionStringName"))
 
         If ConnectionStringSettings Is Nothing OrElse ConnectionStringSettings.ConnectionString.Trim() = "" Then
@@ -152,13 +152,13 @@ Public Class CHSRMembershipProvider
 
 
         ' Get encryption and decryption key information from the configuration.
-        Dim cfg As System.Configuration.Configuration = _
+        Dim cfg As System.Configuration.Configuration =
           WebConfigurationManager.OpenWebConfiguration(System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath)
         machineKey = CType(cfg.GetSection("system.web/machineKey"), MachineKeySection)
 
         If machineKey.ValidationKey.Contains("AutoGenerate") Then _
           If PasswordFormat <> MembershipPasswordFormat.Clear Then _
-            Throw New ProviderException("Hashed or Encrypted passwords " & _
+            Throw New ProviderException("Hashed or Encrypted passwords " &
                                         "are not supported with auto-generated keys.")
     End Sub
 
@@ -278,14 +278,14 @@ Public Class CHSRMembershipProvider
     ' MembershipProvider.ChangePassword
     '
 
-    Public Overrides Function ChangePassword(ByVal username As String, _
-                                             ByVal oldPwd As String, _
+    Public Overrides Function ChangePassword(ByVal username As String,
+                                             ByVal oldPwd As String,
                                              ByVal newPwd As String) As Boolean
         If Not ValidateUser(username, oldPwd) Then _
           Return False
 
 
-        Dim args As ValidatePasswordEventArgs = _
+        Dim args As ValidatePasswordEventArgs =
           New ValidatePasswordEventArgs(username, newPwd, True)
 
         OnValidatingPassword(args)
@@ -300,8 +300,8 @@ Public Class CHSRMembershipProvider
 
 
         Dim conn As SqlConnection = New SqlConnection(connectionString)
-        Dim cmd As SqlCommand = New SqlCommand("UPDATE Users " & _
-          " SET Password = @Password, LastPasswordChangedDate = @LastPasswordChangedDate " & _
+        Dim cmd As SqlCommand = New SqlCommand("UPDATE Users " &
+          " SET Password = @Password, LastPasswordChangedDate = @LastPasswordChangedDate " &
           " WHERE Username = @Username AND ApplicationName = @ApplicationName", conn)
 
         cmd.Parameters.Add("@Password", SqlDbType.VarChar, 255).Value = EncodePassword(newPwd)
@@ -342,17 +342,17 @@ Public Class CHSRMembershipProvider
     ' MembershipProvider.ChangePasswordQuestionAndAnswer
     '
 
-    Public Overrides Function ChangePasswordQuestionAndAnswer(ByVal username As String, _
-                  ByVal password As String, _
-                  ByVal newPwdQuestion As String, _
+    Public Overrides Function ChangePasswordQuestionAndAnswer(ByVal username As String,
+                  ByVal password As String,
+                  ByVal newPwdQuestion As String,
                   ByVal newPwdAnswer As String) As Boolean
 
         If Not ValidateUser(username, password) Then _
           Return False
 
         Dim conn As SqlConnection = New SqlConnection(connectionString)
-        Dim cmd As SqlCommand = New SqlCommand("UPDATE Users " & _
-                " SET PasswordQuestion = @Question, PasswordAnswer = @Answer" & _
+        Dim cmd As SqlCommand = New SqlCommand("UPDATE Users " &
+                " SET PasswordQuestion = @Question, PasswordAnswer = @Answer" &
                 " WHERE Username = @Username AND ApplicationName = @ApplicationName", conn)
 
         cmd.Parameters.Add("@Question", SqlDbType.VarChar, 255).Value = newPwdQuestion
@@ -392,18 +392,18 @@ Public Class CHSRMembershipProvider
     ' MembershipProvider.CreateUser
     '
 
-    Public Overrides Function CreateUser(ByVal username As String, _
-                                         ByVal password As String, _
-                                         ByVal email As String, _
-                                         ByVal passwordQuestion As String, _
-                                         ByVal passwordAnswer As String, _
-                                         ByVal isApproved As Boolean, _
-                                         ByVal providerUserKey As Object, _
+    Public Overrides Function CreateUser(ByVal username As String,
+                                         ByVal password As String,
+                                         ByVal email As String,
+                                         ByVal passwordQuestion As String,
+                                         ByVal passwordAnswer As String,
+                                         ByVal isApproved As Boolean,
+                                         ByVal providerUserKey As Object,
                                          ByRef status As MembershipCreateStatus) _
                               As MembershipUser
-        Return Me.CreateUser(username, password, email, _
-                             If(Not String.IsNullOrEmpty(passwordQuestion), passwordQuestion, String.Empty), _
-                             If(Not String.IsNullOrEmpty(passwordAnswer), passwordAnswer, String.Empty), _
+        Return Me.CreateUser(username, password, email,
+                             If(Not String.IsNullOrEmpty(passwordQuestion), passwordQuestion, String.Empty),
+                             If(Not String.IsNullOrEmpty(passwordAnswer), passwordAnswer, String.Empty),
                              isApproved, providerUserKey, Nothing, String.Empty, status)
     End Function
 
@@ -412,19 +412,19 @@ Public Class CHSRMembershipProvider
     ' CHSRMembershipProvider.CreateUser -- returns CHSRMembershipUser
     '
 
-    Public Overloads Function CreateUser(ByVal username As String, _
-                                         ByVal password As String, _
-                                         ByVal email As String, _
-                                         ByVal passwordQuestion As String, _
-                                         ByVal passwordAnswer As String, _
-                                         ByVal isApproved As Boolean, _
-                                         ByVal providerUserKey As Object, _
-                                         ByVal program As Integer, _
-                                         ByVal role As String, _
+    Public Overloads Function CreateUser(ByVal username As String,
+                                         ByVal password As String,
+                                         ByVal email As String,
+                                         ByVal passwordQuestion As String,
+                                         ByVal passwordAnswer As String,
+                                         ByVal isApproved As Boolean,
+                                         ByVal providerUserKey As Object,
+                                         ByVal program As Integer,
+                                         ByVal role As String,
                                          ByRef status As MembershipCreateStatus) _
                               As CHsRMembershipUser
 
-        Dim Args As ValidatePasswordEventArgs = _
+        Dim Args As ValidatePasswordEventArgs =
           New ValidatePasswordEventArgs(username, password, True)
 
         OnValidatingPassword(Args)
@@ -455,14 +455,14 @@ Public Class CHSRMembershipProvider
             End If
 
             Dim conn As SqlConnection = New SqlConnection(connectionString)
-            Dim cmd As SqlCommand = New SqlCommand("INSERT INTO Users " & _
-                   " (PKID, Username, Password, Email, PasswordQuestion, " & _
-                   " PasswordAnswer, IsApproved," & _
-                   " Comment, CreationDate, LastPasswordChangedDate, LastActivityDate," & _
-                   " ApplicationName, IsLockedOut, LastLockedOutDate," & _
-                   " FailedPasswordAttemptCount, FailedPasswordAttemptWindowStart, " & _
-                   " FailedPasswordAnswerAttemptCount, FailedPasswordAnswerAttemptWindowStart, " & _
-                   " program, role, isVerified)" & _
+            Dim cmd As SqlCommand = New SqlCommand("INSERT INTO Users " &
+                   " (PKID, Username, Password, Email, PasswordQuestion, " &
+                   " PasswordAnswer, IsApproved," &
+                   " Comment, CreationDate, LastPasswordChangedDate, LastActivityDate," &
+                   " ApplicationName, IsLockedOut, LastLockedOutDate," &
+                   " FailedPasswordAttemptCount, FailedPasswordAttemptWindowStart, " &
+                   " FailedPasswordAnswerAttemptCount, FailedPasswordAnswerAttemptWindowStart, " &
+                   " program, role, isVerified)" &
                    " Values(@PKID, @Username, @Password, @Email, @PasswordQuestion, @PasswordAnswer, @IsApproved, @Comment, @CreationDate, @LastPasswordChangedDate, @LastActivityDate, @ApplicationName, @IsLockedOut, @LastLockedOutDate, @FailedPasswordAttemptCount, @FailedPasswordAttemptWindowStart, @FailedPasswordAnswerAttemptCount, @FailedPasswordAnswerAttemptWindowStart, @program, @role, @isVerified)", conn)
 
             cmd.Parameters.Add("@PKID", SqlDbType.UniqueIdentifier).Value = providerUserKey
@@ -522,11 +522,11 @@ Public Class CHSRMembershipProvider
     ' MembershipProvider.DeleteUser
     '
 
-    Public Overrides Function DeleteUser(ByVal username As String, _
+    Public Overrides Function DeleteUser(ByVal username As String,
                                          ByVal deleteAllRelatedData As Boolean) As Boolean
 
         Dim conn As SqlConnection = New SqlConnection(connectionString)
-        Dim cmd As SqlCommand = New SqlCommand("DELETE FROM Users " & _
+        Dim cmd As SqlCommand = New SqlCommand("DELETE FROM Users " &
                 " WHERE Username = @Username AND Applicationname = @ApplicationName", conn)
 
         cmd.Parameters.Add("@Username", SqlDbType.VarChar, 255).Value = username
@@ -566,13 +566,13 @@ Public Class CHSRMembershipProvider
     ' MembershipProvider.GetAllUsers
     '
 
-    Public Overrides Function GetAllUsers(ByVal pageIndex As Integer, _
-    ByVal pageSize As Integer, _
+    Public Overrides Function GetAllUsers(ByVal pageIndex As Integer,
+    ByVal pageSize As Integer,
                                           ByRef totalRecords As Integer) _
                               As MembershipUserCollection
 
         Dim conn As SqlConnection = New SqlConnection(connectionString)
-        Dim cmd As SqlCommand = New SqlCommand("SELECT Count(*) FROM Users  " & _
+        Dim cmd As SqlCommand = New SqlCommand("SELECT Count(*) FROM Users  " &
                                           "WHERE ApplicationName = @ApplicationName", conn)
         cmd.Parameters.Add("@ApplicationName", SqlDbType.VarChar, 255).Value = ApplicationName
 
@@ -589,7 +589,7 @@ Public Class CHSRMembershipProvider
 
             cmd.CommandText = "SELECT PKID, Username, Email, PasswordQuestion," &
                      " Comment, IsApproved, IsLockedOut, CreationDate, LastLoginDate," &
-                     " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, programsite, isVerified, verifiedDate, verifyCode " &
+                     " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, programsite, isVerified, verifiedDate, verifyCode, isUsing2Factor " &
                      " FROM Users  " &
                      " WHERE ApplicationName = @ApplicationName " &
                      " ORDER BY Username Asc"
@@ -679,7 +679,7 @@ Public Class CHSRMembershipProvider
         End If
 
         Dim conn As SqlConnection = New SqlConnection(connectionString)
-        Dim cmd As SqlCommand = New SqlCommand("SELECT Password, PasswordAnswer, IsLockedOut FROM Users " & _
+        Dim cmd As SqlCommand = New SqlCommand("SELECT Password, PasswordAnswer, IsLockedOut FROM Users " &
               " WHERE Username = @Username AND ApplicationName = @ApplicationName", conn)
 
         cmd.Parameters.Add("@Username", SqlDbType.VarChar, 255).Value = username
@@ -739,13 +739,13 @@ Public Class CHSRMembershipProvider
     ' MembershipProvider.GetUser(String, Boolean)
     '
 
-    Public Overrides Function GetUser(ByVal username As String, _
+    Public Overrides Function GetUser(ByVal username As String,
                                       ByVal userIsOnline As Boolean) As MembershipUser
 
         Dim conn As SqlConnection = New SqlConnection(connectionString)
         Dim cmd As SqlCommand = New SqlCommand("SELECT PKID, Username, Email, PasswordQuestion," &
               " Comment, IsApproved, IsLockedOut, CreationDate, LastLoginDate," &
-              " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, programsite, isVerified, verifiedDate, verifyCode" &
+              " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, programsite, isVerified, verifiedDate, verifyCode, isUsing2Factor " &
               " FROM Users  WHERE Username = @Username AND ApplicationName = @ApplicationName", conn)
 
         cmd.Parameters.Add("@Username", SqlDbType.VarChar, 255).Value = username
@@ -764,8 +764,8 @@ Public Class CHSRMembershipProvider
                 u = GetUserFromReader(reader)
 
                 If userIsOnline Then
-                    Dim updateCmd As SqlCommand = New SqlCommand("UPDATE Users  " & _
-                              "SET LastActivityDate = @LastActivityDate " & _
+                    Dim updateCmd As SqlCommand = New SqlCommand("UPDATE Users  " &
+                              "SET LastActivityDate = @LastActivityDate " &
                               "WHERE Username = @Username AND Applicationname = @Applicationname", conn)
 
                     updateCmd.Parameters.Add("@LastActivityDate", SqlDbType.DateTime).Value = DateTime.Now
@@ -797,13 +797,13 @@ Public Class CHSRMembershipProvider
     ' MembershipProvider.GetUser(Object, Boolean)
     '
 
-    Public Overrides Function GetUser(ByVal providerUserKey As Object, _
+    Public Overrides Function GetUser(ByVal providerUserKey As Object,
     ByVal userIsOnline As Boolean) As MembershipUser
 
         Dim conn As SqlConnection = New SqlConnection(connectionString)
         Dim cmd As SqlCommand = New SqlCommand("SELECT PKID, Username, Email, PasswordQuestion," &
               " Comment, IsApproved, IsLockedOut, CreationDate, LastLoginDate," &
-              " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, programsite, isVerified, verifiedDate, verifyCode " &
+              " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, programsite, isVerified, verifiedDate, verifyCode, isUsing2Factor " &
               " FROM Users  WHERE PKID = @PKID", conn)
 
         cmd.Parameters.Add("@PKID", SqlDbType.UniqueIdentifier).Value = providerUserKey
@@ -821,8 +821,8 @@ Public Class CHSRMembershipProvider
                 u = GetUserFromReader(reader)
 
                 If userIsOnline Then
-                    Dim updateCmd As SqlCommand = New SqlCommand("UPDATE Users  " & _
-                              "SET LastActivityDate = @LastActivityDate " & _
+                    Dim updateCmd As SqlCommand = New SqlCommand("UPDATE Users  " &
+                              "SET LastActivityDate = @LastActivityDate " &
                               "WHERE PKID = @PKID", conn)
 
                     updateCmd.Parameters.Add("@LastActivityDate", SqlDbType.DateTime).Value = DateTime.Now
@@ -902,6 +902,8 @@ Public Class CHSRMembershipProvider
         If Not reader.GetValue(17) Is DBNull.Value Then _
             verifyCode = reader.GetString(17)
 
+        Dim isUsing2Factor As Boolean = reader.GetBoolean(18)
+
         Dim u As CHsRMembershipUser = New CHsRMembershipUser(Me.Name,
                                               username,
                                               providerUserKey,
@@ -920,7 +922,8 @@ Public Class CHSRMembershipProvider
                                               programsite,
                                               isVerified,
                                               verifiedDate,
-                                              verifyCode)
+                                              verifyCode,
+                                              isUsing2Factor)
 
         Return u
     End Function
@@ -932,8 +935,8 @@ Public Class CHSRMembershipProvider
 
     Public Overrides Function UnlockUser(ByVal username As String) As Boolean
         Dim conn As SqlConnection = New SqlConnection(connectionString)
-        Dim cmd As SqlCommand = New SqlCommand("UPDATE Users  " & _
-                                          " SET IsLockedOut = 0, LastLockedOutDate = @LastLockedOutDate " & _
+        Dim cmd As SqlCommand = New SqlCommand("UPDATE Users  " &
+                                          " SET IsLockedOut = 0, LastLockedOutDate = @LastLockedOutDate " &
                                           " WHERE Username = @Username AND ApplicationName = @ApplicationName", conn)
 
         cmd.Parameters.Add("@LastLockedOutDate", SqlDbType.DateTime).Value = DateTime.Now
@@ -971,7 +974,7 @@ Public Class CHSRMembershipProvider
 
     Public Overrides Function GetUserNameByEmail(ByVal email As String) As String
         Dim conn As SqlConnection = New SqlConnection(connectionString)
-        Dim cmd As SqlCommand = New SqlCommand("SELECT Username" & _
+        Dim cmd As SqlCommand = New SqlCommand("SELECT Username" &
               " FROM Users  WHERE Email = @Email AND ApplicationName = @ApplicationName", conn)
 
         cmd.Parameters.Add("@Email", SqlDbType.VarChar, 128).Value = email
@@ -1020,11 +1023,11 @@ Public Class CHSRMembershipProvider
             Throw New ProviderException("Password answer required for password Reset.")
         End If
 
-        Dim newPassword As String = _
+        Dim newPassword As String =
           System.Web.Security.Membership.GeneratePassword(newPasswordLength, MinRequiredNonAlphanumericCharacters)
 
 
-        Dim Args As ValidatePasswordEventArgs = _
+        Dim Args As ValidatePasswordEventArgs =
           New ValidatePasswordEventArgs(username, newPassword, True)
 
         OnValidatingPassword(Args)
@@ -1039,7 +1042,7 @@ Public Class CHSRMembershipProvider
 
 
         Dim conn As SqlConnection = New SqlConnection(connectionString)
-        Dim cmd As SqlCommand = New SqlCommand("SELECT PasswordAnswer, IsLockedOut FROM Users " & _
+        Dim cmd As SqlCommand = New SqlCommand("SELECT PasswordAnswer, IsLockedOut FROM Users " &
               " WHERE Username = @Username AND ApplicationName = @ApplicationName", conn)
 
         cmd.Parameters.Add("@Username", SqlDbType.VarChar, 255).Value = username
@@ -1070,8 +1073,8 @@ Public Class CHSRMembershipProvider
                 Throw New MembershipPasswordException("Incorrect password answer.")
             End If
 
-            Dim updateCmd As SqlCommand = New SqlCommand("UPDATE Users " & _
-                " SET Password = @Password, LastPasswordChangedDate = @LastPasswordChangedDate" & _
+            Dim updateCmd As SqlCommand = New SqlCommand("UPDATE Users " &
+                " SET Password = @Password, LastPasswordChangedDate = @LastPasswordChangedDate" &
                 " WHERE Username = @Username AND ApplicationName = @ApplicationName AND IsLockedOut = 0", conn)
 
             updateCmd.Parameters.Add("@Password", SqlDbType.VarChar, 255).Value = EncodePassword(newPassword)
@@ -1106,7 +1109,7 @@ Public Class CHSRMembershipProvider
         Dim conn As SqlConnection = New SqlConnection(connectionString)
         Dim cmd As SqlCommand = New SqlCommand("UPDATE Users " &
                 " SET Email = @Email, Comment = @Comment," &
-                " IsApproved = @IsApproved, programsite = @program, role = @role, isVerified = @isVerified, verifiedDate = @verifiedDate, verifyCode= @verifyCode " &
+                " IsApproved = @IsApproved, programsite = @program, role = @role, isVerified = @isVerified, verifiedDate = @verifiedDate, verifyCode= @verifyCode, isUsing2Factor= @isUsing2Factor " &
                 " WHERE Username = @Username AND ApplicationName = @ApplicationName", conn)
 
         Dim u As CHsRMembershipUser = CType(user, CHsRMembershipUser)
@@ -1121,6 +1124,7 @@ Public Class CHSRMembershipProvider
         cmd.Parameters.Add("@isVerified", SqlDbType.Bit).Value = u.IsVerified
         cmd.Parameters.Add("@verifiedDate", SqlDbType.DateTime).Value = u.VerifiedDate
         cmd.Parameters.Add("@verifyCode", SqlDbType.VarChar, 128).Value = u.VerifyCode
+        cmd.Parameters.Add("@isUsing2Factor", SqlDbType.Bit).Value = u.IsUsing2Factor
 
 
         Try
@@ -1178,7 +1182,7 @@ Public Class CHSRMembershipProvider
                 If isApproved Then
                     isValid = True
 
-                    Dim updateCmd As SqlCommand = New SqlCommand("UPDATE Users  SET LastLoginDate = @LastLoginDate" & _
+                    Dim updateCmd As SqlCommand = New SqlCommand("UPDATE Users  SET LastLoginDate = @LastLoginDate" &
                                                             " WHERE Username = @Username AND ApplicationName = @ApplicationName", conn)
 
                     updateCmd.Parameters.Add("@LastLoginDate", SqlDbType.DateTime).Value = DateTime.Now
@@ -1218,11 +1222,11 @@ Public Class CHSRMembershipProvider
     Private Sub UpdateFailureCount(ByVal username As String, ByVal failureType As String)
 
         Dim conn As SqlConnection = New SqlConnection(connectionString)
-        Dim cmd As SqlCommand = New SqlCommand("SELECT FailedPasswordAttemptCount, " & _
-                                          "  FailedPasswordAttemptWindowStart, " & _
-                                          "  FailedPasswordAnswerAttemptCount, " & _
-                                          "  FailedPasswordAnswerAttemptWindowStart " & _
-                                          "  FROM Users  " & _
+        Dim cmd As SqlCommand = New SqlCommand("SELECT FailedPasswordAttemptCount, " &
+                                          "  FailedPasswordAttemptWindowStart, " &
+                                          "  FailedPasswordAnswerAttemptCount, " &
+                                          "  FailedPasswordAnswerAttemptWindowStart " &
+                                          "  FROM Users  " &
                                           "  WHERE Username = @Username AND ApplicationName = @ApplicationName", conn)
 
         cmd.Parameters.Add("@Username", SqlDbType.VarChar, 255).Value = username
@@ -1268,15 +1272,15 @@ Public Class CHSRMembershipProvider
                 ' Start a New password failure count from 1 and a New window starting now.
 
                 If failureType = "password" Then _
-                  cmd.CommandText = "UPDATE Users  " & _
-                                    "  SET FailedPasswordAttemptCount = @Count, " & _
-                                    "      FailedPasswordAttemptWindowStart = @WindowStart " & _
+                  cmd.CommandText = "UPDATE Users  " &
+                                    "  SET FailedPasswordAttemptCount = @Count, " &
+                                    "      FailedPasswordAttemptWindowStart = @WindowStart " &
                                     "  WHERE Username = @Username AND ApplicationName = @ApplicationName"
 
                 If failureType = "passwordAnswer" Then _
-                  cmd.CommandText = "UPDATE Users  " & _
-                                    "  SET FailedPasswordAnswerAttemptCount = @Count, " & _
-                                    "      FailedPasswordAnswerAttemptWindowStart = @WindowStart " & _
+                  cmd.CommandText = "UPDATE Users  " &
+                                    "  SET FailedPasswordAnswerAttemptCount = @Count, " &
+                                    "      FailedPasswordAnswerAttemptWindowStart = @WindowStart " &
                                     "  WHERE Username = @Username AND ApplicationName = @ApplicationName"
 
                 cmd.Parameters.Clear()
@@ -1295,8 +1299,8 @@ Public Class CHSRMembershipProvider
                     ' Password attempts have exceeded the failure threshold. Lock out
                     ' the user.
 
-                    cmd.CommandText = "UPDATE Users  " & _
-                                      "  SET IsLockedOut = @IsLockedOut, LastLockedOutDate = @LastLockedOutDate " & _
+                    cmd.CommandText = "UPDATE Users  " &
+                                      "  SET IsLockedOut = @IsLockedOut, LastLockedOutDate = @LastLockedOutDate " &
                                       "  WHERE Username = @Username AND ApplicationName = @ApplicationName"
 
                     cmd.Parameters.Clear()
@@ -1313,13 +1317,13 @@ Public Class CHSRMembershipProvider
                     ' the failure counts. Leave the window the same.
 
                     If failureType = "password" Then _
-                      cmd.CommandText = "UPDATE Users  " & _
-                                        "  SET FailedPasswordAttemptCount = @Count" & _
+                      cmd.CommandText = "UPDATE Users  " &
+                                        "  SET FailedPasswordAttemptCount = @Count" &
                                         "  WHERE Username = @Username AND ApplicationName = @ApplicationName"
 
                     If failureType = "passwordAnswer" Then _
-                      cmd.CommandText = "UPDATE Users  " & _
-                                        "  SET FailedPasswordAnswerAttemptCount = @Count" & _
+                      cmd.CommandText = "UPDATE Users  " &
+                                        "  SET FailedPasswordAnswerAttemptCount = @Count" &
                                         "  WHERE Username = @Username AND ApplicationName = @ApplicationName"
 
                     cmd.Parameters.Clear()
@@ -1393,12 +1397,12 @@ Public Class CHSRMembershipProvider
             Case MembershipPasswordFormat.Clear
 
             Case MembershipPasswordFormat.Encrypted
-                encodedPassword = _
+                encodedPassword =
                   Convert.ToBase64String(EncryptPassword(Encoding.Unicode.GetBytes(password)))
             Case MembershipPasswordFormat.Hashed
                 Dim hash As HMACSHA1 = New HMACSHA1()
                 hash.Key = HexToByte(machineKey.ValidationKey)
-                encodedPassword = _
+                encodedPassword =
                   Convert.ToBase64String(hash.ComputeHash(Encoding.Unicode.GetBytes(password)))
             Case Else
                 Throw New ProviderException("Unsupported password format.")
@@ -1420,7 +1424,7 @@ Public Class CHSRMembershipProvider
             Case MembershipPasswordFormat.Clear
 
             Case MembershipPasswordFormat.Encrypted
-                password = _
+                password =
                   Encoding.Unicode.GetString(DecryptPassword(Convert.FromBase64String(password)))
             Case MembershipPasswordFormat.Hashed
                 Throw New ProviderException("Cannot unencode a hashed password.")
@@ -1450,14 +1454,14 @@ Public Class CHSRMembershipProvider
     ' MembershipProvider.FindUsersByName
     '
 
-    Public Overrides Function FindUsersByName(ByVal usernameToMatch As String, _
-                                              ByVal pageIndex As Integer, _
-                                              ByVal pageSize As Integer, _
+    Public Overrides Function FindUsersByName(ByVal usernameToMatch As String,
+                                              ByVal pageIndex As Integer,
+                                              ByVal pageSize As Integer,
                                               ByRef totalRecords As Integer) _
                               As MembershipUserCollection
 
         Dim conn As SqlConnection = New SqlConnection(connectionString)
-        Dim cmd As SqlCommand = New SqlCommand("SELECT Count(*) FROM Users  " & _
+        Dim cmd As SqlCommand = New SqlCommand("SELECT Count(*) FROM Users  " &
                   "WHERE Username LIKE @UsernameSearch AND ApplicationName = @ApplicationName", conn)
         cmd.Parameters.Add("@UsernameSearch", SqlDbType.VarChar, 255).Value = usernameToMatch
         cmd.Parameters.Add("@ApplicationName", SqlDbType.VarChar, 255).Value = pApplicationName
@@ -1474,7 +1478,7 @@ Public Class CHSRMembershipProvider
 
             cmd.CommandText = "SELECT PKID, Username, Email, PasswordQuestion," &
               " Comment, IsApproved, IsLockedOut, CreationDate, LastLoginDate," &
-              " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, programsite, isVerified, verifiedDate, verifyCode " &
+              " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, programsite, isVerified, verifiedDate, verifyCode, isUsing2Factor " &
               " FROM Users  " &
               " WHERE Username LIKE @UsernameSearch AND ApplicationName = @ApplicationName " &
               " ORDER BY Username Asc"
@@ -1516,14 +1520,14 @@ Public Class CHSRMembershipProvider
     ' MembershipProvider.FindUsersByEmail
     '
 
-    Public Overrides Function FindUsersByEmail(ByVal emailToMatch As String, _
-                                               ByVal pageIndex As Integer, _
-                                               ByVal pageSize As Integer, _
+    Public Overrides Function FindUsersByEmail(ByVal emailToMatch As String,
+                                               ByVal pageIndex As Integer,
+                                               ByVal pageSize As Integer,
                                                ByRef totalRecords As Integer) _
                               As MembershipUserCollection
 
         Dim conn As SqlConnection = New SqlConnection(connectionString)
-        Dim cmd As SqlCommand = New SqlCommand("SELECT Count(*) FROM Users  " & _
+        Dim cmd As SqlCommand = New SqlCommand("SELECT Count(*) FROM Users  " &
                                           "WHERE Email LIKE @EmailSearch AND ApplicationName = @ApplicationName", conn)
         cmd.Parameters.Add("@EmailSearch", SqlDbType.VarChar, 255).Value = emailToMatch
         cmd.Parameters.Add("@ApplicationName", SqlDbType.VarChar, 255).Value = ApplicationName
@@ -1541,7 +1545,7 @@ Public Class CHSRMembershipProvider
 
             cmd.CommandText = "SELECT PKID, Username, Email, PasswordQuestion," &
                      " Comment, IsApproved, IsLockedOut, CreationDate, LastLoginDate," &
-                     " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, programsite, isVerified, verifiedDate, verifyCode " &
+                     " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate, program, role, programsite, isVerified, verifiedDate, verifyCode, isUsing2Factor " &
                      " FROM Users  " &
                      " WHERE Email LIKE @EmailSearch AND ApplicationName = @ApplicationName " &
                      " ORDER BY Username Asc"

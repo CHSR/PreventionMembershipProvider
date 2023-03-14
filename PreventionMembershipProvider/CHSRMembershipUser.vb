@@ -70,6 +70,17 @@ Public Class CHsRMembershipUser
         End Set
     End Property
 
+    Private _isUsing2Factor As Boolean
+
+    Public Property IsUsing2Factor() As Boolean
+        Get
+            Return _isUsing2Factor
+        End Get
+        Set(value As Boolean)
+            _isUsing2Factor = value
+        End Set
+    End Property
+
     Public Sub New(ByVal providername As String,
                    ByVal username As String,
                    ByVal userid As Object,
@@ -88,7 +99,8 @@ Public Class CHsRMembershipUser
                    ByVal programsite As Integer,
                    ByVal isVerified As Boolean,
                    ByVal verifiedDate As DateTime,
-                   ByVal verifyCode As String)
+                   ByVal verifyCode As String,
+                   ByVal isUsing2Factor As Boolean)
 
         MyBase.New(providername,
                    username,
@@ -111,6 +123,7 @@ Public Class CHsRMembershipUser
         Me.IsVerified = isVerified
         Me.VerifiedDate = verifiedDate
         Me.VerifyCode = verifyCode
+        Me.IsUsing2Factor = isUsing2Factor
 
     End Sub
 
