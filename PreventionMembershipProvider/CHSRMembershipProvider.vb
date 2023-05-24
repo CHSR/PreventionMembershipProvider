@@ -1123,7 +1123,15 @@ Public Class CHSRMembershipProvider
         cmd.Parameters.Add("@ApplicationName", SqlDbType.VarChar, 255).Value = pApplicationName
         cmd.Parameters.Add("@isVerified", SqlDbType.Bit).Value = u.IsVerified
         cmd.Parameters.Add("@verifiedDate", SqlDbType.DateTime).Value = u.VerifiedDate
-        cmd.Parameters.Add("@verifyCode", SqlDbType.VarChar, 128).Value = u.VerifyCode
+
+        Dim verifyCodeParam As SqlParameter = cmd.Parameters.AddWithValue("@verifyCode", u.VerifyCode)
+        If u.VerifyCode Is Nothing Then
+            verifyCodeParam.Value = DBNull.Value
+        Else
+            verifyCodeParam.Value = u.VerifyCode
+        End If
+
+        'cmd.Parameters.Add("@verifyCode", SqlDbType.VarChar, 128).Value = u.VerifyCode
         cmd.Parameters.Add("@isUsing2Factor", SqlDbType.Bit).Value = u.IsUsing2Factor
 
 
