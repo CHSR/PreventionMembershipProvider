@@ -1109,7 +1109,7 @@ Public Class CHSRMembershipProvider
         Dim conn As SqlConnection = New SqlConnection(connectionString)
         Dim cmd As SqlCommand = New SqlCommand("UPDATE Users " &
                 " SET Email = @Email, Comment = @Comment," &
-                " IsApproved = @IsApproved, programsite = @program, role = @role, isVerified = @isVerified, verifiedDate = @verifiedDate, verifyCode= @verifyCode, isUsing2Factor= @isUsing2Factor " &
+                " IsApproved = @IsApproved, program = @program, programsite = @programsite, role = @role, isVerified = @isVerified, verifiedDate = @verifiedDate, verifyCode= @verifyCode, isUsing2Factor= @isUsing2Factor " &
                 " WHERE Username = @Username AND ApplicationName = @ApplicationName", conn)
 
         Dim u As CHsRMembershipUser = CType(user, CHsRMembershipUser)
@@ -1118,6 +1118,7 @@ Public Class CHSRMembershipProvider
         cmd.Parameters.Add("@Comment", SqlDbType.VarChar, 255).Value = user.Comment
         cmd.Parameters.Add("@IsApproved", SqlDbType.Bit).Value = user.IsApproved
         cmd.Parameters.Add("@program", SqlDbType.Int).Value = u.program
+        cmd.Parameters.Add("@programsite", SqlDbType.Int).Value = u.programsite
         cmd.Parameters.Add("@role", SqlDbType.VarChar, 255).Value = u.Role
         cmd.Parameters.Add("@Username", SqlDbType.VarChar, 255).Value = user.UserName
         cmd.Parameters.Add("@ApplicationName", SqlDbType.VarChar, 255).Value = pApplicationName
